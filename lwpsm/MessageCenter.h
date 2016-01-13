@@ -29,7 +29,7 @@ private:
   void removeMessageBusData(MessageBusData* messageBusData);
   void parseData(MessageBusData* messageBusData);
 
-  std::map<MessageBus*, MessageBusData*> messageBusses;
+  std::map<MessageBus*, MessageBusData*> messageBuses;
 
   static const char messageStartByte = '%';
 };

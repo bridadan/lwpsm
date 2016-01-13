@@ -8,7 +8,7 @@ MessageCenter::~MessageCenter() {
   std::map<MessageBus*, MessageBusData*>::iterator it;
 
   // Delete all the Message Data pointers
-  for(it = messageBusses.begin() ; it != messageBusses.end(); it++) {
+  for(it = messageBuses.begin() ; it != messageBuses.end(); it++) {
     removeMessageBus(it->first);
   }
 }
@@ -18,19 +18,19 @@ void MessageCenter::addMessageBus(MessageBus *messageBus, int bufferSize) {
   messageBusData->messageBus = messageBus;
   messageBusData->tmpBuffer = new char[bufferSize];
   messageBusData->tmpBufferLength = bufferSize;
-  messageBusses[messageBus] = messageBusData;
+  messageBuses[messageBus] = messageBusData;
 }
 
 void MessageCenter::removeMessageBus(MessageBus *messageBus) {
-  removeMessageBusData(messageBusses[messageBus]);
-  messageBusses.erase(messageBus);
+  removeMessageBusData(messageBuses[messageBus]);
+  messageBuses.erase(messageBus);
 }
 
 void MessageCenter::receiveData(MessageBus *messageBus) {
   int numBytesReceived;
   char buffer[64];
 
-  MessageBusData *messageBusData = messageBusses[messageBus];
+  MessageBusData *messageBusData = messageBuses[messageBus];
 
   do {
     numBytesReceived = messageBus->read(messageBusData->tmpBuffer,
