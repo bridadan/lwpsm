@@ -1,15 +1,15 @@
 #include <vector>
+#include "stdio.h"
+#include "lwpsm/MessageCenter.h"
+#include "lwpsm/MessageBus.h"
 
-#include "MessageCenter.h"
-#include "MessageBus.h"
 
-
-MessageCenter::~MessageCenter(int bufferSize) {
-  std::vector<MessageData*>::iterator it;
+MessageCenter::~MessageCenter() {
+  std::map<MessageBus*, MessageBusData*>::iterator it;
 
   // Delete all the Message Data pointers
-  for(it = messageBusses.begin() ; it < messageBusses.end(); it++) {
-    removeMessageBus(*it);
+  for(it = messageBusses.begin() ; it != messageBusses.end(); it++) {
+    removeMessageBus(it->first);
   }
 }
 
@@ -31,26 +31,29 @@ void MessageCenter::receiveData(MessageBus *messageBus) {
   char buffer[64];
 
   MessageBusData *messageBusData = messageBusses[messageBus];
-  MessageBus *messageBus = messageBusData->messageBus;
-  char buffer* messageBus = messageBusData->messageBus;
 
   do {
     numBytesReceived = messageBus->read(messageBusData->tmpBuffer,
                                         messageBusData->tmpBufferLength);
 
     for (int i = 0; i < numBytesReceived; i++) {
-      messageBusData->dataBuff->push_back(messageBusData->tmpBuffer);
+      messageBusData->dataBuffer.push_back(messageBusData->tmpBuffer[i]);
     }
   } while (numBytesReceived > 0);
 
   parseData(messageBusData);
 }
 
-void messageCenter::removeMessageBusData(MessageBusData *messageBusData) {
-  delete[] messageBusData->tmpBuffer;
-  delete messageBusData;
+void MessageCenter::removeMessageBusData(MessageCenter::MessageBusData *messageBusData) {
+  if (messageBusData->tmpBuffer) {
+    delete[] messageBusData->tmpBuffer;
+  }
+
+  if (messageBusData) {
+    delete messageBusData;
+  }
+
 }
 
 void MessageCenter::parseData(MessageBusData *messageBusData) {
-  printf("Parsing message bus data!\r\n");
 }
