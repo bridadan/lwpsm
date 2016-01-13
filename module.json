@@ -1,0 +1,9 @@
+{
+  "name": "lwpsm",
+  "version": "0.0.0",
+  "description": "Lightweight Publish/Subscribe Messaging",
+  "keywords": [],
+  "author": "Brian Daniels",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}
